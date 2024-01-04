@@ -1,6 +1,6 @@
-export { default as Home } from "./Home";
-export { default as SignIn } from "./SignIn";
-export { default as SignUp } from "./SignUp";
-export { default as Profile } from "./Profile";
-export { default as ForgotPassword } from "./ForgotPassword";
-export { default as Offers } from "./Offers";
+export { default as Home } from "./HomePage";
+export { default as SignIn } from "./SignInPage";
+export { default as SignUp } from "./SignUpPage";
+export { default as Profile } from "./ProfilePage";
+export { default as ForgotPassword } from "./ForgotPage";
+export { default as Offers } from "./OfferPage";

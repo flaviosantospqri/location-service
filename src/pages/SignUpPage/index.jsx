@@ -1,14 +1,14 @@
-import signinImg from "../img/signin.svg";
+import signinImg from "../../img/signin.svg";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import OAuth from "../components/OAuth";
+import OAuth from "../../components/OAuth";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { db } from "../firebase";
+import { db } from "../../services/firebase";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
