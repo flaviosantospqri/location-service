@@ -3,6 +3,8 @@ import { IoEye, IoEyeOff } from "react-icons/io5";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import OAuth from "../components/OAuth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { db } from "../firebase";
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -23,9 +25,10 @@ const SignIn = () => {
     }));
     console.log(form);
   };
+
   return (
     <section>
-      <h1 className="text-3x1 text-center mt-6 font-bold">SignIn</h1>
+      <h1 className="text-3xl text-center mt-6 font-bold">SignIn</h1>
       <div className="flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto">
         <div className="md:w-[67%] lg:w-[50%] mb-12 md:mb-6">
           <img

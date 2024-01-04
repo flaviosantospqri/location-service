@@ -3,6 +3,15 @@ import { IoEye, IoEyeOff } from "react-icons/io5";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import OAuth from "../components/OAuth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { db } from "../firebase";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -14,6 +23,38 @@ const SignUp = () => {
 
   const { email, password, fullName } = form;
 
+  const navigate = useNavigate();
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const auth = getAuth();
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      updateProfile(auth.currentUser, {
+        displayName: fullName,
+      });
+
+      const user = userCredentials.user;
+      const formDataCopy = { ...form };
+
+      delete formDataCopy.password;
+
+      formDataCopy.timestamp = serverTimestamp();
+
+      await setDoc(doc(db, "users", user.uid), formDataCopy);
+
+      navigate("/");
+      toast.success("Registration completed successfully");
+    } catch (error) {
+      toast.error(
+        "Error on registration, verify your informations and try again"
+      );
+    }
+  };
   const changeShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -22,11 +63,10 @@ const SignUp = () => {
       ...prevState,
       [e.target.id]: e.target.value,
     }));
-    console.log(form);
   };
   return (
     <section>
-      <h1 className="text-3x1 text-center mt-6 font-bold">SignUp</h1>
+      <h1 className="text-3xl text-center mt-6 font-bold">SignUp</h1>
       <div className="flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto">
         <div className="md:w-[67%] lg:w-[50%] mb-12 md:mb-6">
           <img
@@ -36,7 +76,7 @@ const SignUp = () => {
           />
         </div>
         <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20">
-          <form>
+          <form onSubmit={onSubmit}>
             <input
               className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out mt-5"
               type="text"
