@@ -4,3 +4,4 @@ export { default as SignUp } from "./SignUpPage";
 export { default as Profile } from "./ProfilePage";
 export { default as ForgotPassword } from "./ForgotPage";
 export { default as Offers } from "./OfferPage";
+export { default as Page404 } from "./page404";
