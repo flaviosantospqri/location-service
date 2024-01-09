@@ -28,9 +28,11 @@ const SignIn = () => {
   };
 
   const onSubmit = async (e) => {
+    console.log("chamou");
     e.preventDefault();
     try {
       const auth = getAuth();
+      console.log(auth);
       const userCreadential = await signInWithEmailAndPassword(
         auth,
         email,
@@ -40,7 +42,7 @@ const SignIn = () => {
         navigate("/");
       }
     } catch (error) {
-      toast.error("Ocurred some error");
+      toast.error("Ocurred some error" + error);
     }
   };
 
