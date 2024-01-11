@@ -28,11 +28,9 @@ const SignIn = () => {
   };
 
   const onSubmit = async (e) => {
-    console.log("chamou");
     e.preventDefault();
     try {
       const auth = getAuth();
-      console.log(auth);
       const userCreadential = await signInWithEmailAndPassword(
         auth,
         email,
