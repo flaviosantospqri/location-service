@@ -4,7 +4,7 @@ import React from "react";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { db } from "../services/firebase";
+import { db } from "../../../src/services/firebase";
 
 const OAuth = () => {
   const navigate = useNavigate();

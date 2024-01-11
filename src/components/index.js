@@ -1,1 +1,3 @@
-export { default as Header } from "./Header.jsx";
+export { default as Header } from "./Header";
+export { default as OAuth } from "./OAuth";
+export { default as PrivateRoute } from "./PrivateRouter";

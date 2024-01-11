@@ -10,7 +10,7 @@ import {
   Offers,
   Page404,
 } from "./pages";
-import PrivateRoute from "./components/PrivateRoute";
+import { PrivateRoute } from "./components";
 
 const RouterApp = () => {
   return (
