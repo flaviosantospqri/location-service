@@ -178,7 +178,7 @@ const CreateListing = () => {
           focus:bg-white
           focus:border-slate-600 mb-6"
         />
-        <label htmlFor="Name" className="text-lg mt-6 font-semibold mt-7">
+        <label htmlFor="Name" className="text-lg font-semibold mt-7">
           Description
         </label>
         <textarea
