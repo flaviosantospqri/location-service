@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { Spinner } from "../../components";
+import { toast } from "react-toastify";
 
 const CreateListing = () => {
+  const [geoLocationEnable, setGeoLocationEnabled] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     type: "rent",
     name: "",
@@ -13,6 +17,9 @@ const CreateListing = () => {
     offer: false,
     regularPrice: 0,
     discountedPrice: 0,
+    latitude: 0,
+    longitude: 0,
+    images: [],
   });
 
   const {
@@ -27,23 +34,77 @@ const CreateListing = () => {
     offer,
     regularPrice,
     discountedPrice,
+    latitude,
+    longitude,
+    images,
   } = formData;
-  const onChange = () => {};
+  const onChange = (e) => {
+    let verify = null;
+    if (e.target.value === "true") {
+      verify = true;
+    }
+    if (e.target.value === "false") {
+      verify = false;
+    }
+
+    if (e.target.files) {
+      setFormData((prevState) => ({
+        ...prevState,
+        images: e.target.files,
+      }));
+    }
+
+    if (!e.target.files) {
+      setFormData((prevState) => ({
+        ...prevState,
+        [e.target.id]: verify ?? e.target.value,
+      }));
+    }
+  };
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    if (discountedPrice >= regularPrice) {
+      setLoading(false);
+      toast.error("The discount can not be this value");
+      return;
+    }
+    if (images.length > 6) {
+      setLoading(false);
+      toast.error("There must be less than seven images");
+      return;
+    }
+    let geolocation = {};
+    let location;
+    if (geoLocationEnable) {
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+          address
+        )}&key=${process.env.REACT_APP_API_KEY}`
+      );
+      const { results } = await response.json();
+      console.log(results);
+    }
+  };
+
+  if (loading) {
+    <Spinner />;
+  }
   return (
     <main className="max-w-md px-2 mx-auto">
       <h1 className="text-3xl text-center mt-6 font-bold">Create listing</h1>
-      <form>
+      <form onSubmit={onSubmit}>
         <p className="text-lg mt-6 font-semibold">Sell / Rent</p>
         <div className="flex">
           <button
             type="button"
             onClick={onChange}
-            value="rent"
-            id="rent"
+            value="sale"
+            id="type"
             className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
-              type === "rent"
-                ? "bg-white text-black"
-                : "bg-slate-600 text-white"
+              type === "sale"
+                ? "bg-slate-600 text-white"
+                : "bg-white text-black"
             }`}
           >
             Sell
@@ -51,12 +112,12 @@ const CreateListing = () => {
           <button
             type="button"
             onClick={onChange}
-            value="sale"
-            id="sale"
+            value="rent"
+            id="type"
             className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
-              type === "sale"
-                ? "bg-white text-black"
-                : "bg-slate-600 text-white"
+              type === "rent"
+                ? "bg-slate-600 text-white"
+                : "bg-white text-black"
             }`}
           >
             Rent
@@ -128,7 +189,7 @@ const CreateListing = () => {
             type="button"
             onClick={onChange}
             value={false}
-            id="no_parking"
+            id="parking"
             className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
               parking ? "bg-white text-black" : "bg-slate-600 text-white"
             }`}
@@ -153,7 +214,7 @@ const CreateListing = () => {
             type="button"
             onClick={onChange}
             value={false}
-            id="no_furnished"
+            id="furnished"
             className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
               furnished ? "bg-white text-black" : "bg-slate-600 text-white"
             }`}
@@ -178,6 +239,42 @@ const CreateListing = () => {
           focus:bg-white
           focus:border-slate-600 mb-6"
         />
+        {!geoLocationEnable && (
+          <div className="flex space-x-6 justify-start mb-6">
+            <div>
+              <p className="text-lg font-semibold">Latitude</p>
+              <input
+                type="number"
+                id="latitude"
+                value={latitude}
+                onChange={onChange}
+                required
+                min="-90"
+                max="90"
+                className="w-full px-4 py-2 text-xl text-gray-700 
+                bg-white border border-gray-300 rounded transition
+                duration-150 ease-in-out focus:bg-white focus:text-gray-700
+                focus:border-slate-600 text-center"
+              />
+            </div>
+            <div>
+              <p className="text-lg font-semibold">Longitude</p>
+              <input
+                type="number"
+                id="longitude"
+                value={longitude}
+                onChange={onChange}
+                required
+                min="-90"
+                max="90"
+                className="w-full px-4 py-2 text-xl text-gray-700 
+                bg-white border border-gray-300 rounded transition
+                duration-150 ease-in-out focus:bg-white focus:text-gray-700
+                focus:border-slate-600 text-center"
+              />
+            </div>
+          </div>
+        )}
         <label htmlFor="Name" className="text-lg font-semibold mt-7">
           Description
         </label>
@@ -212,7 +309,7 @@ const CreateListing = () => {
             type="button"
             onClick={onChange}
             value={false}
-            id="no_Offer"
+            id="offer"
             className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
               offer ? "bg-white text-black" : "bg-slate-600 text-white"
             }`}
