@@ -62,7 +62,6 @@ const Profile = () => {
         where("userRef", "==", auth.currentUser.uid),
         orderBy("timestamp", "desc")
       );
-      console.log(listingRef);
       const querySnap = await getDocs(q);
       let listings = [];
       querySnap.forEach((doc) => {
@@ -71,7 +70,6 @@ const Profile = () => {
           data: doc.data(),
         });
       });
-      console.log(querySnap);
       setListings(listings);
       setLoading(false);
     };
@@ -139,8 +137,10 @@ const Profile = () => {
       <div className="max-w-6xl px-3 mt-6 mx-auto">
         {!loading && listings.length > 0 && (
           <>
-            <h2 className="text-2xl text-center font-semibold">My Listing</h2>
-            <ul>
+            <h2 className="text-2xl mb-6 mt-6 text-center font-semibold">
+              My Listing
+            </h2>
+            <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl-grid-cols-5 mt-6 mb-6">
               {listings.map((listing) => (
                 <ListingItem
                   key={listing.id}

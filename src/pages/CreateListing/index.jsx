@@ -99,7 +99,7 @@ const CreateListing = () => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            resolve("File available at", downloadURL);
+            resolve(downloadURL);
           });
         }
       );
