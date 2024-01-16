@@ -82,8 +82,6 @@ const CreateListing = () => {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          // Observe state change events such as progress, pause, and resume
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
@@ -97,12 +95,9 @@ const CreateListing = () => {
           }
         },
         (error) => {
-          // Handle unsuccessful uploads
           reject(error);
         },
         () => {
-          // Handle successful uploads on complete
-          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             resolve("File available at", downloadURL);
           });
@@ -113,7 +108,7 @@ const CreateListing = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (discountedPrice >= regularPrice) {
+    if (parseInt(discountedPrice) >= parseInt(regularPrice)) {
       setLoading(false);
       toast.error("The discount can not be this value");
       return;
@@ -162,6 +157,7 @@ const CreateListing = () => {
       imgUrls,
       geolocation,
       timestamp: serverTimestamp(),
+      userRef: auth.currentUser.uid,
     };
     delete formDataCopy.images;
     !formDataCopy.offer && delete formDataCopy.discountedPrice;
