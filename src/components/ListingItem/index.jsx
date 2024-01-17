@@ -2,8 +2,10 @@ import React from "react";
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
 import { FaLocationDot } from "react-icons/fa6";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { FaRegEdit } from "react-icons/fa";
 
-const ListingItem = ({ listing, id }) => {
+const ListingItem = ({ listing, id, onDelete, onEdit }) => {
   const formatValue = (value) => {
     return new Intl.NumberFormat("en-HOSSDDG", {
       style: "currency",
@@ -56,6 +58,18 @@ const ListingItem = ({ listing, id }) => {
           </div>
         </div>
       </Link>
+      {onDelete && (
+        <FaRegTrashAlt
+          className="absolute bottom-2 right-2 h-[14px] cursor-pointer text-red-500"
+          onClick={() => onDelete(listing.id)}
+        />
+      )}
+      {onEdit && (
+        <FaRegEdit
+          className="absolute bottom-2 right-10 h-4 cursor-pointer text-blue-700"
+          onClick={() => onEdit(listing.id)}
+        />
+      )}
     </li>
   );
 };
