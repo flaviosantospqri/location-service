@@ -129,8 +129,6 @@ const CreateListing = () => {
 
       location = data.status === "ZERO_RESULTS" && undefined;
 
-      console.log(data);
-
       if (location === undefined) {
         setLoading(false);
         toast.error("Please enter a correct address");
