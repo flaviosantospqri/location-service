@@ -119,13 +119,10 @@ const EditListing = () => {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
           switch (snapshot.state) {
             case "paused":
-              console.log("Upload is paused");
               break;
             case "running":
-              console.log("Upload is running");
               break;
           }
         },
@@ -166,8 +163,6 @@ const EditListing = () => {
       geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
 
       location = data.status === "ZERO_RESULTS" && undefined;
-
-      console.log(data);
 
       if (location === undefined) {
         setLoading(false);

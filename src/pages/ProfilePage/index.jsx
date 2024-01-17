@@ -89,7 +89,6 @@ const Profile = () => {
   };
 
   const onEdit = (listingID) => {
-    console.log("chamou");
     navigate(`/edit-listing/${listingID}`);
   };
 
