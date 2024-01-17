@@ -10,7 +10,6 @@
     "firebase": "^10.7.1",
     "moment": "^2.30.1",
     "react": "^18.2.0",
-    "react-confirm-alert": "^3.0.6",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
     "react-moment": "^1.1.3",

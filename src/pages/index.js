@@ -6,3 +6,4 @@ export { default as ForgotPassword } from "./ForgotPage";
 export { default as Offers } from "./OfferPage";
 export { default as Page404 } from "./page404";
 export { default as CreateListing } from "./CreateListing";
+export { default as EditListing } from "./EditListing";
