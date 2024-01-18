@@ -11,6 +11,7 @@ import {
   Page404,
   CreateListing,
   EditListing,
+  Listing,
 } from "./pages";
 import { PrivateRoute } from "./components";
 
@@ -26,6 +27,10 @@ const RouterApp = () => {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/offers" element={<Offers />} />
+        <Route
+          path="/category/:categoryName/:listingId"
+          element={<Listing />}
+        />
         <Route path="/create-listing" element={<PrivateRoute />}>
           <Route path="/create-listing" element={<CreateListing />} />
         </Route>
