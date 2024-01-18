@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { db } from "../../services/firebase";
 import { Spinner } from "../../components";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { FaShare } from "react-icons/fa6";
+
 import SwiperCore, {
   Navigation,
   Pagination,
@@ -20,6 +22,7 @@ const Listing = () => {
   const params = useParams();
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [shareLinkCopy, setShareLinkCopied] = useState(false);
   const { listingId } = params;
 
   useEffect(() => {
@@ -55,12 +58,28 @@ const Listing = () => {
               style={{
                 background: `url(${listing.imgUrls[index]}) center no-repeat`,
                 backgroundSize: "cover",
-                objectFit: "cover",
               }}
             ></div>
           </SwiperSlide>
         ))}
       </Swiper>
+      <div
+        className="fixed top-[13%] right-[3%] z-10 bg-white cursor-pointer border-2 border-gray-400 rounded-full w-12 h-12 flex justify-center items-center opacity-80"
+        onClick={() => {
+          navigator.clipboard.writeText(window.location.href);
+          setShareLinkCopied(true);
+          setTimeout(() => {
+            setShareLinkCopied(false);
+          }, 2000);
+        }}
+      >
+        <FaShare className="text-lg text-slate-500" />
+      </div>
+      {shareLinkCopy && (
+        <p className="fixed top-[23%] right-[5%] font-semibold border-2 border-gray-400 rounded-full z-10 bg-white py-2 px-2">
+          Link Copied
+        </p>
+      )}
     </main>
   );
 };
