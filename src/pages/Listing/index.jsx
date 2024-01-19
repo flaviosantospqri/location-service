@@ -5,13 +5,14 @@ import { db } from "../../services/firebase";
 import { Spinner } from "../../components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FaShare } from "react-icons/fa6";
+import { FaLocationDot, FaSquareParking } from "react-icons/fa6";
+import { IoBedSharp } from "react-icons/io5";
+import { FaBath } from "react-icons/fa6";
+import { GiSofa } from "react-icons/gi";
+import { TbSofaOff } from "react-icons/tb";
+import { BsSignNoParkingFill } from "react-icons/bs";
 
-import SwiperCore, {
-  Navigation,
-  Pagination,
-  EffectFade,
-  Autoplay,
-} from "swiper/modules";
+import { Navigation, Pagination, EffectFade, Autoplay } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -25,6 +26,14 @@ const Listing = () => {
   const [shareLinkCopy, setShareLinkCopied] = useState(false);
   const { listingId } = params;
 
+  console.log(listing);
+  const formatValue = (value) => {
+    return new Intl.NumberFormat("en-HOSSDDG", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(value);
+  };
   useEffect(() => {
     const fetchListing = async () => {
       const docRef = doc(db, "listings", listingId);
@@ -80,6 +89,75 @@ const Listing = () => {
           Link Copied
         </p>
       )}
+      <div className="m-4 flex flex-col md:flex-row max-w-6xl lg:mx-auto p-4 rounded-lg shadow-lg bg-white lg:space-x-5 ">
+        <div className="w-full h-[200px] lg-[400px]">
+          <p className="text-xl font-bold mb-3 text-blue-900">
+            {listing.name} -{formatValue(listing.regularPrice)}
+            {listing.type === "rent" ? " /month" : ""}
+          </p>
+          <p className="flex items-center space-x-5 mt-6 mb-3 font-semibold">
+            <FaLocationDot className="text-green-700 mr-1" />
+            {listing.address}
+          </p>
+          <div className="flex justify-start items-center space-x-4 w-[75%]">
+            <p className="bg-red-800 w-full max-w-[200px] rounded-md p-1 text-white text-center font-semibold shadow-md">
+              {listing.type === "rent" ? "Rent" : "Sale"}
+            </p>
+
+            {listing.offer && (
+              <p className="w-full max-w-[200px] bg-green-800 rounded-md p-1 text-white text-center font-semibold shadow-md">
+                {formatValue(
+                  parseFloat(listing.regularPrice) -
+                    parseFloat(listing.discountedPrice)
+                )}{" "}
+                Discount
+                {!listing.offer && <p>{formatValue(listing.regularPrice)}</p>}
+              </p>
+            )}
+          </div>
+          <p className="mt-3 mb-3">
+            <span className="font-semibold"> Description - </span>
+            {listing.description}
+          </p>
+          <ul className="w-full flex items-center space-x-10 font-semibold">
+            <li className="flex items-center whitespace-nowrap">
+              <IoBedSharp className="text-lg mr-1" />
+              {parseInt(listing.bedrooms) > 1
+                ? `${listing.bedrooms} Beds`
+                : "1 Bed"}
+            </li>
+            <li className="flex items-center whitespace-nowrap">
+              <FaBath className="text-lg mr-1" />
+              {parseInt(listing.bathrooms) > 1
+                ? `${listing.bathrooms} Baths`
+                : "1 Bath"}
+            </li>
+            {listing.parking ? (
+              <li className="flex items-center whitespace-nowrap">
+                <FaSquareParking className="text-lg mr-1" />
+                Parking
+              </li>
+            ) : (
+              <li className="flex items-center whitespace-nowrap">
+                <BsSignNoParkingFill className="text-lg mr-1 text-red-700" />
+                No Parking
+              </li>
+            )}
+            {listing.furnished ? (
+              <li className="flex items-center whitespace-nowrap">
+                <GiSofa className="text-lg mr-1" />
+                Furnished
+              </li>
+            ) : (
+              <li className="flex items-center whitespace-nowrap">
+                <TbSofaOff className="text-lg mr-1 text-red-700" />
+                Not Furnished
+              </li>
+            )}
+          </ul>
+        </div>
+        <div className="bg-blue-300 w-full h-[200px] lg-[400px] z-10 overflow-hidden"></div>
+      </div>
     </main>
   );
 };

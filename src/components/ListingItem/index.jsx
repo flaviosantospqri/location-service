@@ -38,7 +38,7 @@ const ListingItem = ({ listing, id, onDelete, onEdit }) => {
           <p className="font-semibold mt-0 text-xl truncate">{listing.name}</p>
           <p className=" text-[#457b9b] mt-2 font-semibold">
             {listing.offer
-              ? formatValue(listing.discoutedPrice)
+              ? formatValue(listing.discountedPrice)
               : formatValue(listing.regularPrice)}
             {listing.type === "rent" && " /month"}
           </p>
