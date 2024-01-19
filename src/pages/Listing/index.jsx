@@ -2,7 +2,7 @@ import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../services/firebase";
-import { Spinner } from "../../components";
+import { Contact, Spinner } from "../../components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FaShare } from "react-icons/fa6";
 import { FaLocationDot, FaSquareParking } from "react-icons/fa6";
@@ -18,15 +18,16 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
+import { getAuth } from "firebase/auth";
 
 const Listing = () => {
   const params = useParams();
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
   const [shareLinkCopy, setShareLinkCopied] = useState(false);
+  const [landlordContact, setLandlordContact] = useState(false);
   const { listingId } = params;
-
-  console.log(listing);
+  const auth = getAuth();
   const formatValue = (value) => {
     return new Intl.NumberFormat("en-HOSSDDG", {
       style: "currency",
@@ -90,7 +91,7 @@ const Listing = () => {
         </p>
       )}
       <div className="m-4 flex flex-col md:flex-row max-w-6xl lg:mx-auto p-4 rounded-lg shadow-lg bg-white lg:space-x-5 ">
-        <div className="w-full h-[200px] lg-[400px]">
+        <div className="w-full">
           <p className="text-xl font-bold mb-3 text-blue-900">
             {listing.name} -{formatValue(listing.regularPrice)}
             {listing.type === "rent" ? " /month" : ""}
@@ -119,7 +120,7 @@ const Listing = () => {
             <span className="font-semibold"> Description - </span>
             {listing.description}
           </p>
-          <ul className="w-full flex items-center space-x-10 font-semibold">
+          <ul className="w-full flex items-center space-x-10 font-semibold mb-6">
             <li className="flex items-center whitespace-nowrap">
               <IoBedSharp className="text-lg mr-1" />
               {parseInt(listing.bedrooms) > 1
@@ -155,6 +156,25 @@ const Listing = () => {
               </li>
             )}
           </ul>
+          {listing.userRef !== auth.currentUser?.uid && !landlordContact && (
+            <div className="mt-6">
+              <button
+                className="px-7 py-3 bg-blue-600 text-white
+           font-medium tex-sm uppercase rounded shadow-md
+            hover:bg-blue-700 hover:shadow-lg 
+            focus:bg-blue-700 focus:shadow-lg 
+            w-full text-center transition duration-150 ease-in-out"
+                onClick={() => {
+                  setLandlordContact(true);
+                }}
+              >
+                Contact LandLord
+              </button>
+            </div>
+          )}
+          {landlordContact && (
+            <Contact userRef={listing.userRef} listing={listing} />
+          )}
         </div>
         <div className="bg-blue-300 w-full h-[200px] lg-[400px] z-10 overflow-hidden"></div>
       </div>
