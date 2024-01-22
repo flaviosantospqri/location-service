@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../services/firebase";
 import { Contact, Spinner } from "../../components";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { FaShare } from "react-icons/fa6";
 import { FaLocationDot, FaSquareParking } from "react-icons/fa6";
 import { IoBedSharp } from "react-icons/io5";
@@ -12,12 +11,13 @@ import { GiSofa } from "react-icons/gi";
 import { TbSofaOff } from "react-icons/tb";
 import { BsSignNoParkingFill } from "react-icons/bs";
 
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, EffectFade, Autoplay } from "swiper/modules";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
+
 import { getAuth } from "firebase/auth";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
