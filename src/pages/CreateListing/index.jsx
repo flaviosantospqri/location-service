@@ -438,7 +438,7 @@ const CreateListing = () => {
             type="file"
             id="images"
             onChange={onChange}
-            accept="./jpg, jpng, .jpeg"
+            accept="jpg, jpng, jpeg"
             multiple
             required
             className="w-full py-1.5 text-gray-700 bg-transparent rounded transition duration-150 ease-in-out focus:border-slate-600"
