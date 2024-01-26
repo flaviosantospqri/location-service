@@ -4,8 +4,11 @@ import { query, startAfter } from "firebase/database";
 import { db } from "../../services/firebase";
 import { getDocs, limit, orderBy, where, collection } from "firebase/firestore";
 import { ListingItem, Spinner } from "../../components";
+import { useParams } from "react-router-dom";
 
 const Offers = () => {
+  const params = useParams();
+  const { categoryName } = params;
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [lastFetchListing, setLastFetchListing] = useState(null);
@@ -16,7 +19,7 @@ const Offers = () => {
         const listingRef = collection(db, "listings");
         const q = query(
           listingRef,
-          where("offer", "==", true),
+          where("type", "==", categoryName),
           orderBy("timestamp", "desc"),
           limit(8)
         );
@@ -45,7 +48,7 @@ const Offers = () => {
       const listingRef = collection(db, "listings");
       const q = query(
         listingRef,
-        where("offer", "==", true),
+        where("type", "==", categoryName),
         orderBy("timestamp", "desc"),
         limit(4)
       );
@@ -68,7 +71,9 @@ const Offers = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-3">
-      <h1 className="text-3xl font-bold text-center mt-6 mb-6">Offers</h1>
+      <h1 className="text-3xl font-bold text-center mt-6 mb-6">
+        {categoryName.toUpperCase()}
+      </h1>
       {loading ? (
         <Spinner />
       ) : listings.length > 0 ? (
@@ -98,7 +103,7 @@ const Offers = () => {
           )}
         </>
       ) : (
-        <p>There are no current Offers</p>
+        <p>There are no current {categoryName}</p>
       )}
     </div>
   );
