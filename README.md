@@ -55,20 +55,20 @@ To run the Real Estate App locally, follow these steps:
 
 1. **Clone the repository:**
    ```sh
-   git clone [[repository_url](https://github.com/flaviosantospqri/location-service)https://github.com/flaviosantospqri/location-service)]
-   
+   git clone [https://github.com/flaviosantospqri/location-service)https://github.com/flaviosantospqri/location-service]
+    ```
 2. **Navigate to the project folder:**
   ```sh
   cd location-service
-
+ ```
 3. **Install dependencies:**
   ```sh
   npm install
-
+ ```
 4. **Create a Firebase project and set up the necessary configurations**
 
 5. **Start the development server:**
   ```sh
   npm start
-
+ ```
 
