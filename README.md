@@ -54,9 +54,9 @@ This project is licensed under the [MIT License](LICENSE). Feel free to use, mod
 To run the Real Estate App locally, follow these steps:
 
 1. **Clone the repository:**
-   ```sh
-   git clone [https://github.com/flaviosantospqri/location-service]
-    ```
+```sh
+  git clone [https://github.com/flaviosantospqri/location-service]
+```
 2. **Navigate to the project folder:**
   ```sh
   cd location-service
