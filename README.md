@@ -55,7 +55,7 @@ To run the Real Estate App locally, follow these steps:
 
 1. **Clone the repository:**
    ```sh
-   git clone [https://github.com/flaviosantospqri/location-service)https://github.com/flaviosantospqri/location-service]
+   git clone [(https://github.com/flaviosantospqri/location-service)https://github.com/flaviosantospqri/location-service)]
     ```
 2. **Navigate to the project folder:**
   ```sh
